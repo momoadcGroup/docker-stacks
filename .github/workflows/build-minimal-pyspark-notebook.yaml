@@ -51,7 +51,7 @@ jobs:
         run: |
              export spark_download_url="https://archive.apache.org/dist/spark/spark-${{ github.event.inputs.spark_version }}/spark-${{ github.event.inputs.spark_version }}-bin-hadoop${{ github.event.inputs.hadoop_version }}.tgz"
              echo "SPARK_CHECKSUM=`curl ${{ env.spark_download_url }}.sha512 | sed 's/.*://' | tr -d ' \n' | rev | cut -c 1- | rev`" >> $GITHUB_ENV
-             echo "BASE_IMAGE_NAME=${{ env.REGISTRY }}/${{ github.repository }}/jupyter-notebook:BUILD_TAG" >> $GITHUB_ENV
+             echo "BASE_IMAGE_NAME=${{ env.REGISTRY }}/${{ github.repository }}/jupyter-notebook:${{ github.event.inputs.pyspark_notebook_tag }}" >> $GITHUB_ENV
 
       - name: Log into registry
         if: github.event.inputs.push_container_flag == 'true'
@@ -67,7 +67,7 @@ jobs:
         with:
           context: ./base-notebook
           push: false
-          tags: "${{ env.REGISTRY }}/${{ github.repository }}/jupyter-notebook:BUILD_TAG"
+          tags: "${{ env.REGISTRY }}/${{ github.repository }}/jupyter-notebook:${{ github.event.inputs.pyspark_notebook_tag }}"
           # Fix OpenShift permissions
           build-args: NB_GID=0, PYTHON_VERSION="${{ github.event.inputs.python_version }}"
 
