@@ -68,10 +68,8 @@ jobs:
           context: ./base-notebook
           push: false
           tags: "${{ github.repository }}/jupyter-notebook:BUILD_TAG"
-          build-args:
-            # Fix OpenShift permissions
-            - NB_GID=0
-            - PYTHON_VERSION="${{ github.event.inputs.python_version }}"
+          # Fix OpenShift permissions
+          build-args: NB_GID=0, PYTHON_VERSION="${{ github.event.inputs.python_version }}"
 
       # github.repository as <account>/<repo>
       - name: Build and push pyspark notebook
@@ -80,8 +78,4 @@ jobs:
           context: ./pyspark-notebook
           push: github.event.inputs.push_container_flag == 'true'
           tags: "${{ github.repository }}/pyspark-notebook:${{ github.event.inputs.pyspark_notebook_tag }}"
-          build-args:
-            - BASE_CONTAINER="${{ env.BASE_IMAGE_NAME }}"
-            - spark_version="${{ github.event.inputs.spark_version }}"
-            - hadoop_version="${{ github.event.inputs.hadoop_version }}"
-            - spark_checksum="${{ env.SPARK_CHECKSUM }}"
+          build-args: BASE_CONTAINER="${{ env.BASE_IMAGE_NAME }}", spark_version="${{ github.event.inputs.spark_version }}", hadoop_version="${{ github.event.inputs.hadoop_version }}", spark_checksum="${{ env.SPARK_CHECKSUM }}"
