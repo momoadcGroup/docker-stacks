@@ -67,7 +67,7 @@ jobs:
         with:
           context: ./base-notebook
           push: false
-          tags: "${{ github.repository }}/jupyter-notebook:BUILD_TAG"
+          tags: "${{ env.REGISTRY }}/${{ github.repository }}/jupyter-notebook:BUILD_TAG"
           # Fix OpenShift permissions
           build-args: NB_GID=0, PYTHON_VERSION="${{ github.event.inputs.python_version }}"
 
@@ -77,5 +77,5 @@ jobs:
         with:
           context: ./pyspark-notebook
           push: github.event.inputs.push_container_flag == 'true'
-          tags: "${{ github.repository }}/pyspark-notebook:${{ github.event.inputs.pyspark_notebook_tag }}"
+          tags: "${{ env.REGISTRY }}/${{ github.repository }}/pyspark-notebook:${{ github.event.inputs.pyspark_notebook_tag }}"
           build-args: BASE_CONTAINER="${{ env.BASE_IMAGE_NAME }}", spark_version="${{ github.event.inputs.spark_version }}", hadoop_version="${{ github.event.inputs.hadoop_version }}", spark_checksum="${{ env.SPARK_CHECKSUM }}"
