@@ -73,8 +73,9 @@ jobs:
           # Fix OpenShift permissions
           build-args: |
             NB_GID=0
-	    NB_USER=0
-            PYTHON_VERSION=${{ github.event.inputs.python_version }}
+            NB_USER=0
+	    PYTHON_VERSION=${{ github.event.inputs.python_version }}
+
 
       # github.repository as <account>/<repo>
       - name: Build and push pyspark notebook
