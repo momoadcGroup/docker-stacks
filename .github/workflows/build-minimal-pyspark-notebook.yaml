@@ -54,7 +54,6 @@ jobs:
              # Repository name should be in lowercase
              echo "BASE_IMAGE_NAME=${{ env.REGISTRY }}/${{ github.repository }}/jupyter-notebook:build_tag" | tr '[:upper:]' '[:lower:]' >> $GITHUB_ENV
              echo "PYSPARK_IMAGE_NAME=${{ env.REGISTRY }}/${{ github.repository }}/pyspark-notebook:${{ github.event.inputs.pyspark_notebook_tag }}" | tr '[:upper:]' '[:lower:]' >> $GITHUB_ENV
-             echo "${{ github.actor }} \n ${{ secrets.GITHUB_TOKEN }}"
 
       - name: Modify docker files
         # Modify docker files to run with root so that we can set the gid of folders to 0
