@@ -52,8 +52,10 @@ jobs:
              SPARK_DOWNLOAD_URL=https://archive.apache.org/dist/spark/spark-${{ github.event.inputs.spark_version }}/spark-${{ github.event.inputs.spark_version }}-bin-hadoop${{ github.event.inputs.hadoop_version }}.tgz
              echo "SPARK_CHECKSUM=`curl $SPARK_DOWNLOAD_URL.sha512 | sed 's/.*://' | tr -d ' \n' | rev | cut -c 1- | rev`" >> $GITHUB_ENV
              # Repository name should be in lowercase
-             echo "BASE_IMAGE_NAME=${{ env.REGISTRY }}/${{ github.repository }}/jupyter-notebook:build_tag" | tr '[:upper:]' '[:lower:]' >> $GITHUB_ENV
-             echo "PYSPARK_IMAGE_NAME=${{ env.REGISTRY }}/${{ github.repository }}/pyspark-notebook:${{ github.event.inputs.pyspark_notebook_tag }}" | tr '[:upper:]' '[:lower:]' >> $GITHUB_ENV
+             BASE_IMAGE_NAME=$(echo "${{ env.REGISTRY }}/${{ github.repository }}/jupyter-notebook:build_tag" | tr '[:upper:]' '[:lower:]')
+             PYSPARK_IMNAGE_NAME=$(echo "${{ env.REGISTRY }}/${{ github.repository }}/pyspark-notebook:${{ github.event.inputs.pyspark_notebook_tag }}" | tr '[:upper:]' '[:lower:]')
+             echo "BASE_IMAGE_NAME=$BASE_IMAGE_NAME" >> $GITHUB_ENV
+             echo "PYSPARK_IMAGE_NAME=$PYSPARK_IMAGE_NAME" >> $GITHUB_ENV
 
       - name: Modify docker files
         # Modify docker files to run with root so that we can set the gid of folders to 0
