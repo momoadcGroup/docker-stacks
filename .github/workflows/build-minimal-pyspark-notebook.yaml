@@ -74,7 +74,7 @@ jobs:
         with:
           context: ./base-notebook
           push: false
-          tags: ${{ env.BASE_IMAGE_NAME }}
+          tags: "${{ env.BASE_IMAGE_NAME }}"
           # Fix OpenShift permissions
           build-args: |
             NB_GID=0
@@ -87,7 +87,7 @@ jobs:
         with:
           context: ./pyspark-notebook
           push: ${{ github.event.inputs.push_container_flag == 'true'}}
-          tags: ${{ env.PYSPARK_IMAGE_NAME }}
+          tags: "${{ env.PYSPARK_IMAGE_NAME }}"
           build-args: |
             BASE_CONTAINER=${{ env.BASE_IMAGE_NAME }}
             spark_version=${{ github.event.inputs.spark_version }}
