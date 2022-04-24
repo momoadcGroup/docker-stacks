@@ -31,6 +31,7 @@ jobs:
         run: |
              echo "spark_file_name=spark-${{ github.event.inputs.spark_version }}-bin-hadoop${{ github.event.inputs.hadoop_version }}.tgz" >> $GITHUB_ENV
              echo "spark_download_url=https://archive.apache.org/dist/spark/spark-${{ github.event.inputs.spark_version }}/spark-${{ github.event.inputs.spark_version }}-bin-hadoop${{ github.event.inputs.hadoop_version }}.tgz" >> $GITHUB_ENV
+             echo "reponame=momoadcgroup" >> $GITHUB_ENV
       - name: Get the checksum of the Spark version
         run: |
              echo "spark_checksum=`curl ${{ env.spark_download_url }}.sha512 | sed 's/.*://' | tr -d ' \n' | rev | cut -c 1- | rev`" >> $GITHUB_ENV
@@ -41,7 +42,7 @@ jobs:
       - name: Build container image
         run: |
              tar xzf ${{ env.spark_file_name }}
-             cd $(basename ${{ env.spark_file_name }} .tgz) && ./bin/docker-image-tool.sh -r ${{ env.REGISTRY }}/${{ github.repository }} -t v${{ github.event.inputs.spark_version }} -p ./kubernetes/dockerfiles/spark/bindings/python/Dockerfile build
+             cd $(basename ${{ env.spark_file_name }} .tgz) && ./bin/docker-image-tool.sh -r ${{ env.REGISTRY }}/${{ env.reponame }} -t v${{ github.event.inputs.spark_version }} -p ./kubernetes/dockerfiles/spark/bindings/python/Dockerfile build
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry
@@ -54,4 +55,4 @@ jobs:
 
       - name: Push container image
         if: github.event.inputs.push_container_flag == 'true'
-        run: cd $(basename ${{ env.spark_file_name }} .tgz) && ./bin/docker-image-tool.sh -r ${{ env.REGISTRY }}/${{ github.repository }} -t v${{ github.event.inputs.spark_version }} -p ./kubernetes/dockerfiles/spark/bindings/python/Dockerfile push
+        run: cd $(basename ${{ env.spark_file_name }} .tgz) && ./bin/docker-image-tool.sh -r ${{ env.REGISTRY }}/${{ env.reponame }} -t v${{ github.event.inputs.spark_version }} -p ./kubernetes/dockerfiles/spark/bindings/python/Dockerfile push
