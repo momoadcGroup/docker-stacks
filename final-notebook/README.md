@@ -5,4 +5,5 @@ This repo consists the final touches to make the pyspark notebook be production 
 The dockerfile includes:
 
 - packages needed for the communication with the kubernetes api
-- login script to the openshift api 
+- spark related extensions (git, juplab-3, proxy)
+- additional extensions for Qol
