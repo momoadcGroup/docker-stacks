@@ -1,13 +1,11 @@
 # Needed for authenticating to openshift api to get route to spark UI
-kubernetes==11.0.0
+kubernetes==11.0.0 # not the latest due to a bug in package https://github.com/kubernetes-client/python/issues/1333
 openshift==0.11.0
 
-#  jupyterlab extensions for spark 
-jupyter-server-proxy
-jupyterlab==3.1.0 # maybe install differently
-jupyterlab-git
+# Jupyterlab extensions for spark 
+jupyter-server-proxy==3.2.1 
+jupyterlab==3.1.16 # maybe install differently
+jupyterlab-git==0.37.1
 
-# additional packages and extensions
-aquirdturtle_collapsible_headings==3.1.0
+# Additional packages and extensions
 ipywidgets==7.7.0
-plotly==5.7.0
