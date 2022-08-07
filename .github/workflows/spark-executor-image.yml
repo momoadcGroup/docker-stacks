@@ -40,8 +40,9 @@ jobs:
              echo ${{ env.spark_checksum }} *${{ env.spark_file_name }} | sha512sum -c -
       - name: Build container image
         run: |
+             BASE_IMAGE_NAME=$(echo "${{ env.REGISTRY }}/${{ github.repository }}/jupyter-notebook" | tr '[:upper:]' '[:lower:]')
              tar xzf ${{ env.spark_file_name }}
-             cd $(basename ${{ env.spark_file_name }} .tgz) && ./bin/docker-image-tool.sh -r ${{ env.REGISTRY }}/${{ github.repository }} -t v${{ github.event.inputs.spark_version }} -p ./kubernetes/dockerfiles/spark/bindings/python/Dockerfile build
+             cd $(basename ${{ env.spark_file_name }} .tgz) && ./bin/docker-image-tool.sh -r $BASE_IMAGE_NAME -t v${{ github.event.inputs.spark_version }} -p ./kubernetes/dockerfiles/spark/bindings/python/Dockerfile build
       # Login against a Docker registry except on PR
       # https://github.com/docker/login-action
       - name: Log into registry
