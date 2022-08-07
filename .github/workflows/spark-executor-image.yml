@@ -33,7 +33,7 @@ jobs:
              echo "spark_download_url=https://archive.apache.org/dist/spark/spark-${{ github.event.inputs.spark_version }}/spark-${{ github.event.inputs.spark_version }}-bin-hadoop${{ github.event.inputs.hadoop_version }}.tgz" >> $GITHUB_ENV
       - name: Get the checksum of the Spark version
         run: |
-             echo "spark_checksum=`curl ${{ env.spark_download_url }}.sha512 | sed 's/.*://' | tr -d ' \n' | rev | cut -c 1- | rev`" >> $GITHUB_ENV
+             echo "spark_checksum=`curl $spark_download_url.sha512 | sed -e 's/[^ ]*spark[^ ]*//ig' | tr -d '[:blank:]' | tr -d ' \n'`" >> $GITHUB_ENV
       - name: Download and verify Spark
         run: |
              curl -o ${{ env.spark_file_name }} ${{ env.spark_download_url }}

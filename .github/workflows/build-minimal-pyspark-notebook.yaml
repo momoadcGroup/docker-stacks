@@ -50,7 +50,7 @@ jobs:
       - name: Set env variables
         run: |
              SPARK_DOWNLOAD_URL=https://archive.apache.org/dist/spark/spark-${{ github.event.inputs.spark_version }}/spark-${{ github.event.inputs.spark_version }}-bin-hadoop${{ github.event.inputs.hadoop_version }}.tgz
-             echo "SPARK_CHECKSUM=`curl $SPARK_DOWNLOAD_URL.sha512 | sed -e 's/[^ ]*spark[^ ]*//ig' | tr -d '[:blank:]' | tr -d ' \n'`" >> $GITHUB_ENV
+             echo "SPARK_CHECKSUM=`curl $SPARK_DOWNLOAD_URL.sha512 | sed 's/.*://' | tr -d ' \n' | rev | cut -c 1- | rev`" >> $GITHUB_ENV
              # Repository name should be in lowercase
              BASE_IMAGE_NAME=$(echo "${{ env.REGISTRY }}/${{ github.repository }}/jupyter-notebook:build_tag" | tr '[:upper:]' '[:lower:]')
              PYSPARK_IMAGE_NAME=$(echo "${{ env.REGISTRY }}/${{ github.repository }}/pyspark-notebook:${{ github.event.inputs.pyspark_notebook_tag }}" | tr '[:upper:]' '[:lower:]')
